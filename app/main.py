@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from app.startup import startup
 
 app = FastAPI(
     title="Gym Management API - DEOLANG",
     summary="This is the documentation of Gym Management API developed by Deolang. It is a JSON based RESTful API with custom endpoints to streamline gym management.",
+    on_startup=[startup],
     contact={
         "name": "Email- Uday Subba",
         "email": "udaysubba2004@gmail.com",
