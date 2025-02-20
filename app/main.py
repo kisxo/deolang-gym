@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.startup import startup
+from app.api import api_router
 
 app = FastAPI(
     title="Gym Management API - DEOLANG",
@@ -10,9 +11,9 @@ app = FastAPI(
         "email": "udaysubba2004@gmail.com",
     },
     servers=[
-        {"url": "/api/v1", "description": "Default api URL Route"},
+        {"url": "/api", "description": "Default api URL Route"},
     ],
-    root_path="/api/v1",
+    root_path="/api",
 )
 
 @app.get("/",
@@ -24,3 +25,5 @@ app = FastAPI(
          )
 async def root():
     return {"status":"true", "message": "Api server is up and running"}
+
+app.include_router(api_router.router)
