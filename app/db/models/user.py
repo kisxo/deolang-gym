@@ -7,7 +7,7 @@ class Users(Base):
     __tablename__ = "users"
 
     user_id: Mapped[int] = mapped_column(primary_key=True)
-    user_name: str = mapped_column(String(20))
-    user_hashed_password: str = mapped_column(String())
+    user_username: Mapped[str] = mapped_column(String(20), unique=True)
+    user_hashed_password: Mapped[str] = mapped_column(String())
     user_role: Mapped[SqlEnum] = mapped_column(SqlEnum(UserRole))
     user_created_date: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP(timezone=True), server_default=func.now())
