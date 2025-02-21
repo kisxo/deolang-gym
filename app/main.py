@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.core.security import security
 from app.startup import startup
 from app.api import api_router
 
@@ -15,6 +16,8 @@ app = FastAPI(
     ],
     root_path="/api",
 )
+
+security.handle_errors(app)
 
 @app.get("/",
     name= "Api Status",
