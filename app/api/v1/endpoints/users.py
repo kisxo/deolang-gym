@@ -1,0 +1,33 @@
+from fastapi import APIRouter, Depends, HTTPException
+from app.core.security import security, hash_password, verify_password
+from app.db.schemas.user import UserCreate
+from app.db.session import SessionDep
+from app.db.models.user import Users
+from app.db.schemas.user import UserPublic
+from sqlalchemy.exc import IntegrityError
+
+router = APIRouter()
+
+@router.post("/",
+    response_model = UserPublic
+)
+def create_user(
+    input_data: UserCreate,
+    session: SessionDep
+):
+    new_user = Users(
+        user_username = input_data.user_username,
+        user_hashed_password = hash_password(input_data.password),
+        user_role = input_data.user_role
+    )
+
+    session.add(new_user)
+    try:
+        session.commit()
+        session.refresh(new_user)
+    except IntegrityError:
+        raise HTTPException(status_code=400, detail="User already exists!")
+    except:
+        raise HTTPException(status_code=400, detail="Something went wrong!")
+
+    return new_user

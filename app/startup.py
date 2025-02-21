@@ -1,7 +1,7 @@
 import logging
 from app.db.database import engine, create_db_and_tables
 from sqlalchemy import text
-from app.db.models import member, payment
+from app.db.models import member, payment, user
 logger = logging.getLogger('uvicorn.error')
 
 # Function to run during server start up.
