@@ -2,15 +2,14 @@ from fastapi import FastAPI
 from app.core.security import security
 from app.startup import startup
 from app.api import api_router
+from app.openapi_docs import doc
 
 app = FastAPI(
-    title="Gym Management API - DEOLANG",
-    summary="This is the documentation of Gym Management API developed by Deolang. It is a JSON based RESTful API with custom endpoints to streamline gym management.",
+    title=doc.title,
+    summary=doc.summary,
+    openapi_tags=doc.tags_metadata,
     on_startup=[startup],
-    contact={
-        "name": "Email- Uday Subba",
-        "email": "udaysubba2004@gmail.com",
-    },
+    contact=doc.contact,
     servers=[
         {"url": "/api", "description": "Default api URL Route"},
     ],
