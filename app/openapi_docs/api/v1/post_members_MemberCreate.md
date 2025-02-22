@@ -1,12 +1,12 @@
 # Member API Documentation
 
-This API allows you to create a member.
+This API allows to create members.
 
 ## POST /api/v1/members
 
 Creates a member.
 
-### Authorization, allowed Roles [ Staff, Admin ]
+### Authorization required [ Staff, Admin ]
 
 ### Parameters
 

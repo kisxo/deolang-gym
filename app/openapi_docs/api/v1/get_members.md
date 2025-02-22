@@ -1,12 +1,12 @@
 # Member API Documentation
 
-This API allows you to lists members.
+This API allows to list members.
 
 ## GET /api/v1/members
 
 Lists members.
 
-### Authorization, allowed Roles [Staff, Admin]
+### Authorization required [Staff, Admin]
 
 ### Response
 

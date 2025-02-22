@@ -6,11 +6,13 @@ from app.db.models.user import Users
 from app.db.schemas.user import UserPublic
 from sqlalchemy.exc import IntegrityError
 from authx import TokenPayload
+from pathlib import Path
 
 router = APIRouter()
 
 @router.post("/",
-    response_model = UserPublic
+    response_model = UserPublic,
+    description=Path('app/openapi_docs/api/v1/post_users_UserCreate.md').read_text(),
 )
 def create_user(
     input_data: UserCreate,
