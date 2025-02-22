@@ -11,10 +11,13 @@ security_config = AuthXConfig(
 )
 
 auth_scheme = HTTPBearer(
+    scheme_name="HTTP Bearer JWT-Token",
     description=
 """
-Authorization: Bearer <JWT-Token>\n
-Go to section Authentication.
+To obtain the access token go to section Authentication.\n
+JWT-Token, prefixed by "Bearer".\n
+Name: Authorization\n
+In: header
 """
 )
 
