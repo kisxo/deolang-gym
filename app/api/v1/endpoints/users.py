@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.core.security import security, hash_password, verify_password
+from app.core.security import security, hash_password
 from app.db.schemas.user import UserCreate
 from app.db.session import SessionDep
 from app.db.models.user import Users
 from app.db.schemas.user import UserPublic
 from sqlalchemy.exc import IntegrityError
+from authx import TokenPayload
 
 router = APIRouter()
 
@@ -13,8 +14,12 @@ router = APIRouter()
 )
 def create_user(
     input_data: UserCreate,
-    session: SessionDep
+    session: SessionDep,
+    payload: TokenPayload = Depends(security.access_token_required)
 ):
+    if payload.role != "Admin":
+        raise HTTPException(status_code=403, detail="Only Admin can create accounts!")
+
     new_user = Users(
         user_username = input_data.user_username,
         user_hashed_password = hash_password(input_data.password),
