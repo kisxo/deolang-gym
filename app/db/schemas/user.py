@@ -5,7 +5,7 @@ from typing_extensions import Self
 class UserRole(enum.Enum):
     admin = "Admin"
     staff = "Staff"
-    member = "Member"
+    # member = "Member"
     def __str__(self) -> str:
         return self.value
 
@@ -21,7 +21,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str = Field(min_length=6)
-    user_role: UserRole = Field(default="Member")
+    user_role: UserRole = Field(default="Staff")
 
 class UserPublic(UserBase):
     user_role: UserRole
