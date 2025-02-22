@@ -1,16 +1,17 @@
-from fastapi import APIRouter, Depends, HTTPException
-from app.core.security import security
+from fastapi import APIRouter, HTTPException
+from app.core.security import authx_security
 from app.db.session import SessionDep
 from app.db.models.user import Users
 from app.db.schemas.auth import Token, LoginForm
-from app.core.security import hash_password, verify_password
+from app.core.security import verify_password
 from sqlalchemy import select
-from typing import Annotated
+from pathlib import Path
 
 router = APIRouter()
 
 @router.post("/token",
-    response_model=Token
+    response_model=Token,
+    description=Path('app/openapi_docs/api/v1/post_auth_token_LoginForm.md').read_text(),
 )
 async def get_jwt_token(
     input_data: LoginForm,
@@ -31,6 +32,6 @@ async def get_jwt_token(
     # Used 'user_in_db.user_role.value' to get the actual string value from the Enum
     token_data = {'user_id' : user_in_db.user_id, 'username' : user_in_db.user_username, 'role' : user_in_db.user_role.value}
 
-    token = security.create_access_token(uid=str(user_in_db.user_id), data=token_data)
+    token = authx_security.create_access_token(uid=str(user_in_db.user_id), data=token_data)
 
     return {"access_token": token}

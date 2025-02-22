@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.core.security import security
+from app.core.security import authx_security
 from app.startup import startup
 from app.api import api_router
 from app.openapi_docs import doc
@@ -16,7 +16,7 @@ app = FastAPI(
     root_path="/api",
 )
 
-security.handle_errors(app)
+authx_security.handle_errors(app)
 
 @app.get("/",
     name= "Api Status",

@@ -1,6 +1,7 @@
 from authx import AuthX, AuthXConfig
 from app.core.config import settings
 import bcrypt
+from fastapi.security import HTTPBearer
 
 security_config = AuthXConfig(
      JWT_ALGORITHM = "RS256",
@@ -9,7 +10,15 @@ security_config = AuthXConfig(
      JWT_TOKEN_LOCATION = ["headers"],
 )
 
-security = AuthX(config=security_config)
+auth_scheme = HTTPBearer(
+    description=
+"""
+Authorization: Bearer <JWT-Token>\n
+Go to section Authentication.
+"""
+)
+
+authx_security = AuthX(config=security_config)
 
 # Hash a password using bcrypt
 def hash_password(password) -> str:

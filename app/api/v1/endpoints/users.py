@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.core.security import security, hash_password
+from app.core.security import authx_security, hash_password, auth_scheme
 from app.db.schemas.user import UserCreate
 from app.db.session import SessionDep
 from app.db.models.user import Users
@@ -13,11 +13,12 @@ router = APIRouter()
 @router.post("/",
     response_model = UserPublic,
     description=Path('app/openapi_docs/api/v1/post_users_UserCreate.md').read_text(),
+    dependencies=[Depends(auth_scheme)]
 )
 def create_user(
     input_data: UserCreate,
     session: SessionDep,
-    payload: TokenPayload = Depends(security.access_token_required)
+    payload: TokenPayload = Depends(authx_security.access_token_required)
 ):
     if payload.role != "Admin":
         raise HTTPException(status_code=403, detail="Only Admin can create accounts!")

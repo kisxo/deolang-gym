@@ -4,14 +4,14 @@ from app.db.models.member import Members
 from app.db.schemas.member import MembersPublic, MemberCreate, MemberPublic
 from sqlalchemy import select
 from pathlib import Path
-from app.core.security import security
+from app.core.security import authx_security, auth_scheme
 
 router = APIRouter()
 
 @router.get("/",
     response_model=MembersPublic,
     description=Path('app/openapi_docs/api/v1/get_members.md').read_text(),
-    dependencies=[Depends(security.access_token_required)]
+    dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)],
 )
 async def list_members(session: SessionDep):
     statement = select(Members.member_id, Members.member_name, Members.member_gender, Members.member_phone)
@@ -24,7 +24,7 @@ async def list_members(session: SessionDep):
     response_model= MemberPublic,
     status_code=201,
     description=Path('app/openapi_docs/api/v1/post_members_MemberCreate.md').read_text(),
-    dependencies=[Depends(security.access_token_required)]
+    dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)]
 )
 async def create_member(
     session: SessionDep,
