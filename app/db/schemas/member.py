@@ -1,5 +1,7 @@
 import enum
-from pydantic import BaseModel
+
+from pycparser.c_ast import Default
+from pydantic import BaseModel, Field
 
 class GenderChoice(enum.Enum):
     male = "Male"
@@ -28,12 +30,12 @@ class BatchChoice(enum.Enum):
 class StatusChoice(enum.Enum):
     active = "Active"
     inactive = "Inactive"
-    expired = "Expired"
-    trial = "Trial"
-    overdue = "Overdue"
-    cancelled = "Cancelled"
-    pending = "Pending"
-    hold = "Hold"
+    # expired = "Expired"
+    # trial = "Trial"
+    # overdue = "Overdue"
+    # cancelled = "Cancelled"
+    # pending = "Pending"
+    # hold = "Hold"
     def __str__(self) -> str:
         return self.value
 
@@ -45,3 +47,27 @@ class MemberPublic(BaseModel):
 
 class MembersPublic(BaseModel):
     data: list[MemberPublic]
+
+class MemberMeasurements(BaseModel):
+    height: str = Field(max_length=10)
+    weight: str = Field(max_length=10)
+    chest: str = Field(max_length=10)
+    waist: str = Field(max_length=10)
+
+class MemberCreate(BaseModel):
+    member_name: str = Field(max_length=30)
+    member_image_url: str | None = Field(default=None, max_length=250)
+    member_phone: str = Field(max_length=10)
+    member_status: StatusChoice = Field(default="Active")
+    member_gender: GenderChoice
+    member_measurements: MemberMeasurements | None = Field(default=None)
+    member_dob: str | None = Field(default=None)
+    member_address: str | None = Field(max_length=150, default=None)
+    member_training: TrainingChoice
+    member_plan: PlanChoice
+    member_batch:BatchChoice
+    member_starting_date: str | None = Field(default=None)
+    member_ending_date: str | None = Field(default=None)
+    member_info: str | None = Field(default=None, max_length=50)
+    member_due_date: str
+    member_due_amount: float
