@@ -1,6 +1,5 @@
 import enum
-
-from pycparser.c_ast import Default
+from pydantic.types import date
 from pydantic import BaseModel, Field
 
 class GenderChoice(enum.Enum):
@@ -54,20 +53,26 @@ class MemberMeasurements(BaseModel):
     chest: str = Field(max_length=10)
     waist: str = Field(max_length=10)
 
-class MemberCreate(BaseModel):
+class MemberBase(BaseModel):
     member_name: str = Field(max_length=30)
     member_image_url: str | None = Field(default=None, max_length=250)
     member_phone: str = Field(max_length=10)
     member_status: StatusChoice = Field(default="Active")
     member_gender: GenderChoice
     member_measurements: MemberMeasurements | None = Field(default=None)
-    member_dob: str | None = Field(default=None)
+    member_dob: date | None = Field(default=None)
     member_address: str | None = Field(max_length=150, default=None)
     member_training: TrainingChoice
     member_plan: PlanChoice
     member_batch:BatchChoice
-    member_starting_date: str | None = Field(default=None)
-    member_ending_date: str | None = Field(default=None)
+    member_starting_date: date | None = Field(default=None)
+    member_ending_date: date | None = Field(default=None)
     member_info: str | None = Field(default=None, max_length=50)
-    member_due_date: str
+    member_due_date: date
     member_due_amount: float
+
+class MemberCreate(MemberBase):
+    pass
+
+class MemberDetail(MemberBase):
+    pass
