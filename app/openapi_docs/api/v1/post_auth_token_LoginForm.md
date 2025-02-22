@@ -4,7 +4,8 @@ This API allows to generate access JWT-Token.
 
 ## POST /api/v1/auth/token
 
-Generates an access JWT-Token
+Generates an access JWT-Token.<br>
+JWT-Token will be valid for 10 hours from the time of generation.
 
 ### Parameters
 

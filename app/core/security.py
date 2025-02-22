@@ -2,12 +2,14 @@ from authx import AuthX, AuthXConfig
 from app.core.config import settings
 import bcrypt
 from fastapi.security import HTTPBearer
+from datetime import timedelta
 
 security_config = AuthXConfig(
-     JWT_ALGORITHM = "RS256",
-     JWT_PRIVATE_KEY= settings.JWT_PRIVATE,
-     JWT_PUBLIC_KEY= settings.JWT_PUBLIC,
-     JWT_TOKEN_LOCATION = ["headers"],
+    JWT_ALGORITHM = "RS256",
+    JWT_PRIVATE_KEY= settings.JWT_PRIVATE,
+    JWT_PUBLIC_KEY= settings.JWT_PUBLIC,
+    JWT_TOKEN_LOCATION = ["headers"],
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=10)
 )
 
 auth_scheme = HTTPBearer(

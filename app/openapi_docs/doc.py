@@ -17,6 +17,7 @@ tags_metadata = [
         Header: JWT Bearer Auth<br>
         Format in header: `Authorization: Bearer <JWT-Token>`<br>
         <br>
+        Every JWT-Token will be valid for 10 hours from the time of generation.<br>
         Example JSON request with authentication headers: Let the say the `JWT-Token = eyJhbGciOiJSUzI1.....`
         
     {
