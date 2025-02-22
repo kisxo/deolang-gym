@@ -28,6 +28,9 @@ async def get_jwt_token(
     if not verify_password(input_data.password, user_in_db.user_hashed_password):
         raise HTTPException(status_code=400, detail="Username and password does not match!")
 
-    token = security.create_access_token(uid=str(user_in_db.user_id), username=user_in_db.user_username, role=user_in_db.user_role)
+    # Used 'user_in_db.user_role.value' to get the actual string value from the Enum
+    token_data = {'user_id' : user_in_db.user_id, 'username' : user_in_db.user_username, 'role' : user_in_db.user_role.value}
+
+    token = security.create_access_token(uid=str(user_in_db.user_id), data=token_data)
 
     return {"access_token": token}
