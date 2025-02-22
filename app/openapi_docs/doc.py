@@ -25,9 +25,7 @@ tags_metadata = [
         "headers": {
             "Authorization": "Bearer eyJhbGciOiJSUzI1.....",
         },
-        "data": {
-            "your_request_data": "member_data"
-        }
+        "data": request_data
     }  
 To obtain the JWT-Token send a post request to `/api/v1/auth/token` with username and password in the following format <br>
                 

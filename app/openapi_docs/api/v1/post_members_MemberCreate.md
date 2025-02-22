@@ -73,7 +73,7 @@ Content-Type: application/json
 
 {
   "member_name": "Raju Singh",
-  "member_image_url": "https://gym.deolang.com/media/members/image/1.png",
+  "member_image_url": "https://gym-deolang.com/media/members/image/1.png",
   "member_phone": "6001234567",
   "member_status": "Active",
   "member_gender": "Male",
