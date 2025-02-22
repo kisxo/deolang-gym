@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Response, Depends
 from app.db.session import SessionDep
 from app.db.models.member import Members
-from app.db.schemas.member import MembersPublic, MemberCreate, MemberPublic
+from app.db.schemas.member import MembersPublic, MemberCreate, MemberPublic, MemberDetail
 from sqlalchemy import select
 from pathlib import Path
 from app.core.security import authx_security, auth_scheme
@@ -19,6 +19,24 @@ async def list_members(session: SessionDep):
     result = session.execute(statement).mappings().all()
 
     return {'data': result}
+
+@router.get("/{member_id}",
+    response_model=MemberDetail,
+    description=Path('app/openapi_docs/api/v1/post_members_member_id.md').read_text(),
+    dependencies=[Depends(authx_security.access_token_required), Depends(auth_scheme)],
+)
+async def get_member_detail(
+    session: SessionDep,
+    member_id: int
+):
+    statement = select(Members).where(Members.member_id == member_id)
+    # used mapping to resolve type-error caused due to use of enums
+    result = session.execute(statement).mappings().first()
+
+    if result is None:
+        raise HTTPException(status_code=404, detail="Member not found!")
+
+    return result.Members
 
 @router.post("/",
     response_model= MemberPublic,
